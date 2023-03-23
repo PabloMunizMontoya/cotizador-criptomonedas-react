@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import styled from '@emotion/styled'
 import useMoneda from "../hooks/useMoneda";
 import useCriptomoneda from "../hooks/useCriptomoneda";
+import Error from "./Error";
 
 import axios from 'axios'
 
@@ -28,6 +29,9 @@ const Formulario = () => {
 
     //12. creamos el useState para guardar el listado de criptomonedas
     const [listacripto, guardarCriptomonedas] = useState([])
+
+    //13. creamos un state para la validación del submit
+    const [ error, guardarError] = useState(false)
 
     //6. creamos una variable que sera un array de objetos con los nombres de las monedas.
     const MONEDAS = [
@@ -69,9 +73,30 @@ const Formulario = () => {
 
     }, [])
 
+    //14.1 definimos la function cotizarMoneda
+    const cotizarMoneda = e => {
+        e.preventDefault()
+
+        //14.2 validar si ambos campos están llenos
+        if(moneda === '' || criptoMoneda === '') {
+            guardarError(true)
+            return
+        }
+
+        //si pasa la validación pasamos los datos al componente principal app 
+        guardarError(false)
+    }
+
     return ( 
 
-        <form>
+        <form
+            /* 14. agregamos el onSubmit que dispara la function cotizarmoneda al hacer click en enviar */
+            onSubmit={cotizarMoneda}
+        >
+
+            {error ? <Error
+                mensaje = 'Todos los campos son obligatorios'
+            />: null}
 
             {/* 5.4 usamos lo que se muestra en pantalla del custom hook, que es selectMonedas, como un componente */}
             <SelectMonedas/>
