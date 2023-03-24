@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import axios from 'axios'
 import imagen from './cryptomonedas.png'
 import Formulario from './componentes/Formularios'
+import Cotizacion from './componentes/Cotizacion'
 
 //1. creamos el componente styled
 const Contenedor = styled.div `
@@ -46,6 +47,9 @@ function App() {
   //16.creo el state para guardar el valor de la criptomoneda en app
   const [criptomoneda, guardarCriptomoneda] = useState('')
 
+  //18 creamos un state para guardar la relación entre el precio moneda y criptomoneda.
+  const [resultado, guardarResultado] = useState ({})
+
   //17. creo un useEffect que va a dispararse cuando el valor moneda y criptomoneda cambien, estos cambian con su useState desde formulario
   useEffect( ( ) =>  {
     
@@ -60,7 +64,9 @@ function App() {
 
     //17.4 definimos el resultado en una variable usando axios y obteniendo el resultado de la url con un método get.
     const resultado = await axios.get(url)
-    console.log(resultado.data.DISPLAY[criptomoneda][moneda])
+
+    //17.5 18.1 guardamos el resultado en el estate creado para ello, vemos que el resultado es el recorrido del objeto que nos lleva hasta lo que deseamos, este camino es dinámico, cuando cambian los valores en el form el objeto cambia, por eso en el camino ponemos de forma dinámica los valores criptomoneda y moneda.
+    guardarResultado(resultado.data.DISPLAY[criptomoneda][moneda])
     }
     
     //17.5 mandamos a llamar a la function
@@ -90,6 +96,9 @@ function App() {
           /* 15.1 16.1 guardamos moneda y criptomoneda pasando los useState al formulario como propiedad */
           guardarMoneda={guardarMoneda}
           guardarCriptomoneda={guardarCriptomoneda}
+        />
+        <Cotizacion
+          resultado = {resultado}
         />
       </div>
     </Contenedor>
