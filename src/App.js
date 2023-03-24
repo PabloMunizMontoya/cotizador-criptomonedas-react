@@ -47,16 +47,25 @@ function App() {
   const [criptomoneda, guardarCriptomoneda] = useState('')
 
   //17. creo un useEffect que va a dispararse cuando el valor moneda y criptomoneda cambien, estos cambian con su useState desde formulario
-  useEffect(( ) => {
+  useEffect( ( ) =>  {
+    
+    
+    const cotizarCriptomoneda = async  () => {
 
-    //17.2 evitamos que el  useEffect se ejecute la primera vez que carga la pagina. recordar que el return hace que la function pare.
+      //17.2 evitamos que el  useEffect se ejecute la primera vez que carga la pagina. recordar que el return hace que la function pare.
     if(moneda === '') return
 
     //17.3 vamos a volver a consultar la api con axios para obtener la cotización, vemos en esta url que fsyms = al codigo de la criptomoneda y que tsyms= al codigo de la moneda, entonces cambios esos valores por el valor obtenido desde los useState
-    const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda},EUR`
+    const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`
 
-
-
+    //17.4 definimos el resultado en una variable usando axios y obteniendo el resultado de la url con un método get.
+    const resultado = await axios.get(url)
+    console.log(resultado.data.DISPLAY[criptomoneda][moneda])
+    }
+    
+    //17.5 mandamos a llamar a la function
+    cotizarCriptomoneda()
+    
   }, [moneda, criptomoneda])
 
   return (
