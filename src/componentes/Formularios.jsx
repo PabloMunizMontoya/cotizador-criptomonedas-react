@@ -24,8 +24,8 @@ const Boton = styled.input`
         cursor: pointer;
     }
 `
-
-const Formulario = () => {
+//15.2 16.2 extraemos las props que vienen desde app para guardar los valores de las monedas y criptomonedas y llevarlas a el componente app
+const Formulario = ({guardarMoneda, guardarCriptomoneda}) => {
 
     //12. creamos el useState para guardar el listado de criptomonedas
     const [listacripto, guardarCriptomonedas] = useState([])
@@ -83,8 +83,12 @@ const Formulario = () => {
             return
         }
 
-        //si pasa la validación pasamos los datos al componente principal app 
+        // 14.4 si pasa la validación pasamos el valor de el estado error a false
         guardarError(false)
+
+        // 14.5 15.3 16.3 pasamos los valores de las monedas y de las criptomonedas a app a traves de los useState creados en app y traídos a formulario como propiedad.
+        guardarMoneda(moneda)
+        guardarCriptomoneda(criptoMoneda)
     }
 
     return ( 

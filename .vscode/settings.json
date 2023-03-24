@@ -3,10 +3,13 @@
         "codigo",
         "cotizarmoneda",
         "Cripto",
+        "cryptomonedas",
+        "fsyms",
         "listacripto",
         "Neue",
         "opcion",
         "renderizamos",
-        "Selectcripto"
+        "Selectcripto",
+        "tsyms"
     ]
 }

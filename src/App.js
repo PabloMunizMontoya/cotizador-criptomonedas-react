@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from '@emotion/styled'
+import axios from 'axios'
 import imagen from './cryptomonedas.png'
 import Formulario from './componentes/Formularios'
 
@@ -37,6 +38,27 @@ const Heading = styled.h1`
   }
 `
 function App() {
+
+
+  //15. creamos el useState para guardar el valor de la moneda en app
+  const [moneda, guardarMoneda] = useState('')
+
+  //16.creo el state para guardar el valor de la criptomoneda en app
+  const [criptomoneda, guardarCriptomoneda] = useState('')
+
+  //17. creo un useEffect que va a dispararse cuando el valor moneda y criptomoneda cambien, estos cambian con su useState desde formulario
+  useEffect(( ) => {
+
+    //17.2 evitamos que el  useEffect se ejecute la primera vez que carga la pagina. recordar que el return hace que la function pare.
+    if(moneda === '') return
+
+    //17.3 vamos a volver a consultar la api con axios para obtener la cotización, vemos en esta url que fsyms = al codigo de la criptomoneda y que tsyms= al codigo de la moneda, entonces cambios esos valores por el valor obtenido desde los useState
+    const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda},EUR`
+
+
+
+  }, [moneda, criptomoneda])
+
   return (
     /* 1.2 insertamos el componente creado con styledComponents */
     <Contenedor>
@@ -54,7 +76,12 @@ function App() {
           Cotiza Criptomonedas al instante
         </Heading>
         
-        <Formulario />
+        <Formulario 
+
+          /* 15.1 16.1 guardamos moneda y criptomoneda pasando los useState al formulario como propiedad */
+          guardarMoneda={guardarMoneda}
+          guardarCriptomoneda={guardarCriptomoneda}
+        />
       </div>
     </Contenedor>
   );
